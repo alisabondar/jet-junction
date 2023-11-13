@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import Link from 'next/link';
 
 export default function Home() {
@@ -14,8 +13,9 @@ export default function Home() {
   const [aircrafts, setAircrafts] = useState<Aircraft[]>([]);
 
   useEffect(() => {
-    axios.get('https://recruiting-assessment.alphasights.com/api/aircrafts')
-      .then((res) => setAircrafts(res.data))
+    fetch('https://raw.githubusercontent.com/alphasights/tech-assessments/front-end-technical-assessment/json/aircrafts.json')
+      .then(res => res.json())
+      .then(data => setAircrafts(data))
   }, [])
 
   return (
@@ -28,7 +28,7 @@ export default function Home() {
         {aircrafts.map(aircraft => {
           return (
             <div key={aircraft.ident}>
-              <Link href={`/scheduler?=${aircraft.ident}`}>
+              <Link href={`/scheduler`}>
                 {aircraft.ident}
               </Link>
             </div>
