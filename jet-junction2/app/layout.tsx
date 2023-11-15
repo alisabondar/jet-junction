@@ -37,6 +37,7 @@ export default function RootLayout({
               </ul>
             </div>
           </div>
+          <hr className="my-4 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-4" />
         </nav>
 
         {children}
