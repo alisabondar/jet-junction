@@ -13,7 +13,7 @@ export default function FlightCard({ flight, index }: FlightProps) {
   return (
     <Draggable draggableId={flight.ident} index={index}>
       {provided => (
-        <li
+        <li className="bg-gray-300 rounded-md p-2 transition duration-800 ease-out mt-8 hover:bg-white"
           key={flight.ident}
           ref={provided.innerRef}
           {...provided.draggableProps}
