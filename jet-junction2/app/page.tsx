@@ -19,7 +19,7 @@ export default function Home() {
   }, [])
 
   return (
-    <div className='bg-no-repeat'>
+    <div className='bg-no-repeat h-screen'>
       <div className='flex justify-center p-10'>
         {aircrafts.map(aircraft => {
           return (
