@@ -7,25 +7,14 @@ import Region from './Components/Region'
 import UtilBar from './Components/UtilBar';
 
 export default function Scheduler() {
-  const [flights, setFlights] = useState<Flight[]>([]);
-  // const [scheduled, setScheduled] = useRef<Flight[]>([]);
+  const [leftFlights, setLeftFlights] = useState<Flight[]>([])
+  const [rightFlights, setRightFlights] = useState<Flight[]>([])
 
   useEffect(() => {
     fetch('https://raw.githubusercontent.com/alphasights/tech-assessments/front-end-technical-assessment/json/flights.json')
       .then(res => res.json())
-      .then(data => setFlights(data))
+      .then(data => { setLeftFlights(data) })
   }, [])
-
-  const columns: Columns = {
-    initial: {
-      id: 'initial',
-      list: flights
-    },
-    dragged: {
-      id: 'dragged',
-      list: []
-    }
-  }
 
   const TitleComponent = () => {
     const tomorrow = new Date();
@@ -43,27 +32,41 @@ export default function Scheduler() {
   const onDragEnd = ({ source, destination }: DropResult) => {
     if (!destination) return;
 
-    let start = columns[source.droppableId];
-    let end = columns[destination.droppableId];
-
-    end.list.push(start.list[source.index])
-    // setScheduled(end.list);
-
-    let section1 = start.list.slice(0, source.index);
-    let section2 = start.list.slice(source.index + 1);
-    start.list = section1.concat(section2);
+    // drag from left -> right
+    if (source.droppableId === 'All Flights') {
+      const flightToMove = leftFlights[source.index]
+      // remove dragged flight from left col
+      setLeftFlights(leftFlights.filter((f, i) => i !== source.index))
+      // add dragged flight to right col
+      setRightFlights([
+        ...rightFlights.slice(0, destination.index),
+        flightToMove,
+        ...rightFlights.slice(destination.index)
+      ])
+    }
+    // drag from right -> left
+    else {
+      const flightToMove = rightFlights[source.index]
+      // removed dragged flight from right col
+      setRightFlights(rightFlights.filter((f, i) => i !== source.index))
+      // add dragged flight to left col
+      setLeftFlights([
+        ...leftFlights.slice(0, destination.index),
+        flightToMove,
+        ...leftFlights.slice(destination.index)
+      ])
+    }
   };
 
   return (
     <div>
       <TitleComponent />
-      {/* <UtilBar/> */}
+      <UtilBar scheduled={rightFlights}/>
       <DragDropContext onDragEnd={onDragEnd}>
         <div>
           <div className="grid grid-cols-2 mx-auto w-80vw gap-8">
-            {Object.values(columns).map(col => (
-              <Region key={col.id} column={col} />
-            ))}
+            <Region column={{ id: 'All Flights', list: leftFlights }} />
+            <Region column={{ id: 'Tentative Scheduled Flights', list: rightFlights }} />
           </div>
         </div>
       </DragDropContext>
