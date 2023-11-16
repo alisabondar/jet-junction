@@ -3,17 +3,18 @@ import { Flight } from '../flightTypes';
 
 interface Props {
   scheduled: Flight[]
+  setFilter: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function UtilBar({ scheduled }: Props) {
+export default function UtilBar({ scheduled, setFilter }: Props) {
   const [util, setUtil] = useState(0);
 
   useEffect(() => {
     if (scheduled.length > 0) {
       if (!Approve(scheduled)) {
-        alert(`This is not an acceptable aircraft itinerary due to one or both of the following:
+        alert(`This is not an acceptable aircraft itinerary due to:
            - overlapping flight times
-           - unregistered flight to one of the departing airports
+           - unregistered flight(s)
 
            Please click the restart button or drag the incorrect flight back.
         `)
@@ -32,8 +33,11 @@ export default function UtilBar({ scheduled }: Props) {
 
     if (flights.length === 1) {
       approval = true;
+      setFilter(flights[0].destination);
     } else if (flights.length > 1) {
       for (let i = 0; i <= flights.length; i++) {
+        setFilter(flights[i].destination)
+
         if (i === flights.length - 1) {
           break;
         }
@@ -53,6 +57,7 @@ export default function UtilBar({ scheduled }: Props) {
         }
       }
     }
+
     return approval;
   }
 
@@ -69,7 +74,7 @@ export default function UtilBar({ scheduled }: Props) {
     document.getElementById('bar')?.appendChild(div);
 
 
-    const addColor = (array : string[]) => {
+    const addColor = (array: string[]) => {
       for (let i = 0; i < array.length; i++) {
         const div = document.createElement('div');
         div.style.width = array[i];
@@ -97,7 +102,7 @@ export default function UtilBar({ scheduled }: Props) {
     for (let i = 0; i < scheduled.length; i++) {
       flightPerc = Math.floor((scheduled[i].arrivaltime - scheduled[i].departuretime) / totalSec * 100).toString() + '%';
       turnoverPerc = Math.floor(1200 / totalSec * 100).toString() + '%';
-      idlePerc = idle(scheduled[i], scheduled[i+1])
+      idlePerc = idle(scheduled[i], scheduled[i + 1])
 
       if (idlePerc) {
         addColor([flightPerc, turnoverPerc, idlePerc]);
@@ -115,9 +120,9 @@ export default function UtilBar({ scheduled }: Props) {
     if (Approve(scheduled)) {
       alert("Thank you for scheduling tomorrow's itinerary!")
     } else {
-      alert(`This is not an acceptable aircraft itinerary due to one or both of the following:
+      alert(`This is not an acceptable aircraft itinerary due to:
            - overlapping flight times
-           - unregistered flight to one of the departing airports
+           - unregistered flight(s)
 
            Please click the restart button.
         `)

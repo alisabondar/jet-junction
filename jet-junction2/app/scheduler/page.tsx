@@ -7,14 +7,25 @@ import Region from './Components/Region'
 import UtilBar from './Components/UtilBar';
 
 export default function Scheduler() {
-  const [leftFlights, setLeftFlights] = useState<Flight[]>([])
-  const [rightFlights, setRightFlights] = useState<Flight[]>([])
+  const [flights, setFlights] = useState<Flight[]>([]);
+  const [leftFlights, setLeftFlights] = useState<Flight[]>([]);
+  const [rightFlights, setRightFlights] = useState<Flight[]>([]);
+  const [filter, setFilter] = useState('');
 
   useEffect(() => {
     fetch('https://raw.githubusercontent.com/alphasights/tech-assessments/front-end-technical-assessment/json/flights.json')
       .then(res => res.json())
-      .then(data => { setLeftFlights(data) })
+      .then(data => { setFlights(data), setLeftFlights(data) })
   }, [])
+
+  useEffect(() => {
+    if (filter) {
+      console.log(flights, leftFlights)
+      setLeftFlights(flights.filter(f => {
+        return f.origin === filter && !rightFlights.some((flight) => flight.ident === f.ident)
+      }))
+    }
+  }, [filter])
 
   const TitleComponent = () => {
     const tomorrow = new Date();
@@ -36,6 +47,10 @@ export default function Scheduler() {
     if (source.droppableId === 'All Flights') {
       const flightToMove = leftFlights[source.index]
       setLeftFlights(leftFlights.filter((f, i) => i !== source.index))
+      if (filter) {
+        setLeftFlights(leftFlights.filter(f => f.origin === filter))
+      }
+
       setRightFlights([
         ...rightFlights.slice(0, destination.index),
         flightToMove,
@@ -57,7 +72,7 @@ export default function Scheduler() {
   return (
     <div>
       <TitleComponent />
-      <UtilBar scheduled={rightFlights}/>
+      <UtilBar scheduled={rightFlights} setFilter={setFilter} />
       <DragDropContext onDragEnd={onDragEnd}>
         <div>
           <div className="grid grid-cols-2 mx-auto w-80vw gap-8">
