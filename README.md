@@ -6,7 +6,7 @@ Welcome to Jet Junction! Your right hand for quickly and efficiently planning an
 
 After choosing an aircraft from your fleet, drag available flights to create a draft for tomorrow's itinerary. As you plan, our algorithm will repopulate the All Flights column with appropriate flights, but you still need to choose the best departure time. Pay attention to the subtitle where a percentage is displayed, indicating the usage of the aircraft in 24 hours.
 
-Made a mistake? Just drag a flight back to the All Flights column, or click "Restart" to start from the beginning.
+Made a mistake? Just drag a flight back to the All Flights column, or click "Restart" to start from the beginning. If you want to return to the homepage, click on our logo in the header or footer.
 
 Once you are satisfied with your proposed, error-free flight plan, click the "Visualize" button. A colored graph will display: green for flight time, orange for turnaround (20 minutes), and gray for idle. If you're ready to submit your final flight plan, click "Submit" or propose another flight plan with the "Restart" button!
 
