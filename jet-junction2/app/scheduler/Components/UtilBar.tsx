@@ -68,10 +68,8 @@ export default function UtilBar({ scheduled }: Props) {
 
     document.getElementById('bar')?.appendChild(div);
 
-    // helper func
-    const addColor = (array : string[]) => {
-      console.log(array)
 
+    const addColor = (array : string[]) => {
       for (let i = 0; i < array.length; i++) {
         const div = document.createElement('div');
         div.style.width = array[i];
@@ -81,17 +79,12 @@ export default function UtilBar({ scheduled }: Props) {
         } else if (i === 1) {
           div.className = "shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-orange-500"
         }
-        // else {
-        //   div.className = "shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gray-400"
-        // }
-
         document.getElementById('bar')?.appendChild(div);
       }
     }
 
     const idle = (prev: Flight, next: Flight) => {
       if (next) {
-        console.log(Math.floor((next.departuretime - (prev.arrivaltime + 1200)) / totalSec * 100).toString() + '%');
         return Math.floor((next.departuretime - (prev.arrivaltime + 1200)) / totalSec * 100).toString() + '%';
       } else {
         return undefined;
@@ -102,7 +95,6 @@ export default function UtilBar({ scheduled }: Props) {
     let flightPerc, turnoverPerc, idlePerc;
 
     for (let i = 0; i < scheduled.length; i++) {
-      console.log(i)
       flightPerc = Math.floor((scheduled[i].arrivaltime - scheduled[i].departuretime) / totalSec * 100).toString() + '%';
       turnoverPerc = Math.floor(1200 / totalSec * 100).toString() + '%';
       idlePerc = idle(scheduled[i], scheduled[i+1])
@@ -135,12 +127,7 @@ export default function UtilBar({ scheduled }: Props) {
   return (
     <div className="flex flex-col items-center">
       <p className="text-md">{util} percent utilized</p>
-      <div id="bar" className="flex h-20 w-5/6 mx-auto text-xs mt-5 rounded bg-gray-400">
-        {/*
-        <div style={{ width: "15%" }} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-orange-500"></div>
-        <div style={{ width: "25%" }} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-500"></div>
-        */}
-      </div>
+      <div id="bar" className="flex h-20 w-5/6 mx-auto text-xs mt-5 rounded bg-gray-400"></div>
       <div className="flex justify-between w-5/6 mx-auto text-sm">
         <p>0:00</p>
         <p>12:00</p>

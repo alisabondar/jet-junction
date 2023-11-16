@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation'
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
-import { Columns, Flight } from './flightTypes';
+import { Flight } from './flightTypes';
 import Region from './Components/Region'
 import UtilBar from './Components/UtilBar';
 
@@ -35,21 +35,17 @@ export default function Scheduler() {
     // drag from left -> right
     if (source.droppableId === 'All Flights') {
       const flightToMove = leftFlights[source.index]
-      // remove dragged flight from left col
       setLeftFlights(leftFlights.filter((f, i) => i !== source.index))
-      // add dragged flight to right col
       setRightFlights([
         ...rightFlights.slice(0, destination.index),
         flightToMove,
         ...rightFlights.slice(destination.index)
       ])
     }
-    // drag from right -> left
+
     else {
       const flightToMove = rightFlights[source.index]
-      // removed dragged flight from right col
       setRightFlights(rightFlights.filter((f, i) => i !== source.index))
-      // add dragged flight to left col
       setLeftFlights([
         ...leftFlights.slice(0, destination.index),
         flightToMove,
