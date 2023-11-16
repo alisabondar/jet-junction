@@ -6,7 +6,7 @@ Welcome to Jet Junction! Your right hand for quickly and efficiently planning an
 
 After choosing an aircraft from your fleet, drag available flights to create a draft for tomorrow's itinerary. As you plan, pay attention to the subtitle where a percentage is displayed, indicating the usage of the aircraft in 24 hours.
 
-Click the "Visualize" button, and a colored graph will display when the aircraft is in the air (green), in turnaround (orange), or idle (gray). If you want to start over, click the "Restart" button. Alternatively, if you're ready to submit your final flight plan, click "Submit!
+Once you are satisfied with your proposed, error-free flight plan, click the "Visualize" button and a colored graph will display. Green indicates flight time, orange for turnaround (20 minutes), and gray for idle. If you want to start over, click the "Restart" button. Alternatively, if you're ready to submit your final flight plan, click "Submit!
 
 ## Built With
 
