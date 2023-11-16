@@ -20,7 +20,6 @@ export default function Scheduler() {
 
   useEffect(() => {
     if (filter) {
-      console.log(flights, leftFlights)
       setLeftFlights(flights.filter(f => {
         return f.origin === filter && !rightFlights.some((flight) => flight.ident === f.ident)
       }))
@@ -66,6 +65,12 @@ export default function Scheduler() {
         flightToMove,
         ...leftFlights.slice(destination.index)
       ])
+    }
+
+    if (destination.droppableId === 'All Flights') {
+      // Reset leftFlights to all flights and set filter to an empty string
+      setLeftFlights(flights);
+      setFilter('');
     }
   };
 

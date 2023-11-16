@@ -12,12 +12,12 @@ export default function UtilBar({ scheduled, setFilter }: Props) {
   useEffect(() => {
     if (scheduled.length > 0) {
       if (!Approve(scheduled)) {
-        alert(`This is not an acceptable aircraft itinerary due to:
+        alert(
+        `This is not an acceptable aircraft itinerary due to:
            - overlapping flight times
            - unregistered flight(s)
 
-           Please click the restart button or drag the incorrect flight back.
-        `)
+        Please click the restart button or drag the incorrect flight back.`)
       } else {
         let flightTotal = 0;
         const totalSec = 86400;
@@ -42,7 +42,7 @@ export default function UtilBar({ scheduled, setFilter }: Props) {
           break;
         }
 
-        if (flights[i + 1].departuretime > (flights[i].arrivaltime + 1200)) {
+        if (flights[i + 1].departuretime >= (flights[i].arrivaltime + 1200)) {
           approval = true;
         } else {
           approval = false;
@@ -72,7 +72,6 @@ export default function UtilBar({ scheduled, setFilter }: Props) {
     div.className = "shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gray-400 rounded"
 
     document.getElementById('bar')?.appendChild(div);
-
 
     const addColor = (array: string[]) => {
       for (let i = 0; i < array.length; i++) {
@@ -120,12 +119,12 @@ export default function UtilBar({ scheduled, setFilter }: Props) {
     if (Approve(scheduled)) {
       alert("Thank you for scheduling tomorrow's itinerary!")
     } else {
-      alert(`This is not an acceptable aircraft itinerary due to:
+      alert(
+        `This is not an acceptable aircraft itinerary due to:
            - overlapping flight times
            - unregistered flight(s)
 
-           Please click the restart button.
-        `)
+        Please click the restart button.`)
     }
   }
 
